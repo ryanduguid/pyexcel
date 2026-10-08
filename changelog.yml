@@ -5,6 +5,7 @@ releases:
   - action: Fixed
     details:
     - Remove the unreachable datetime branch and redundant property self-assignment.
+    - Make exception and file-existence tests assert their intended outcome.
   version: unreleased
   date: unreleased
 - changes:

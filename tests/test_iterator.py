@@ -165,11 +165,8 @@ class TestMatrixColumn(unittest.TestCase):
 
     def test_set_an_invalid_slice(self):
         m = Matrix(self.data)
-        try:
+        with self.assertRaises(ValueError):
             m.column[2:1] = ["e", "r", "r", "o"]
-            assert 1 == 2
-        except ValueError:
-            assert 1 == 1
 
 
 class TestMatrixRow(unittest.TestCase):
@@ -254,11 +251,8 @@ class TestMatrixRow(unittest.TestCase):
 
     def test_delete_an_invalid_slice(self):
         m = Matrix(self.data)
-        try:
+        with self.assertRaises(ValueError):
             del m.row[2:1]
-            assert 1 == 2
-        except ValueError:
-            assert 1 == 1
 
     def test_set_a_row(self):
         r = Matrix(self.data)
@@ -288,11 +282,8 @@ class TestMatrixRow(unittest.TestCase):
 
     def test_a_wrong_slice(self):
         r = Matrix(self.data)
-        try:
+        with self.assertRaises(ValueError):
             r.row[2:1] = ["e", "r", "r", "o"]
-            assert 1 == 2
-        except ValueError:
-            assert 1 == 1
 
 
 class TestMatrix(unittest.TestCase):
@@ -347,11 +338,8 @@ class TestMatrix(unittest.TestCase):
 
     def test_set_column_at(self):
         r = Matrix(self.data)
-        try:
+        with self.assertRaises(IndexError):
             r.set_column_at(1, [11, 1], 1000)
-            assert 1 == 2
-        except IndexError:
-            assert 1 == 1
 
     def test_delete_rows_with_invalid_list(self):
         m = Matrix([])
