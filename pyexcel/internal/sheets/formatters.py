@@ -62,8 +62,6 @@ def date_to_format(value, target_format):
     if target_format == str:
         if isinstance(value, datetime.date):
             ret = value.strftime("%d/%m/%y")
-        elif isinstance(value, datetime.datetime):
-            ret = value.strftime("%d/%m/%y")
         elif isinstance(value, datetime.time):
             ret = value.strftime("%H:%M:%S")
     else:

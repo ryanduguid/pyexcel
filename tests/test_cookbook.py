@@ -117,22 +117,16 @@ class TestCookbook(unittest.TestCase):
     def test_update_rows(self):
         bad_column = {100: [31, 1, 1, 1, 1]}
         custom_column = {"1": [3, 4]}
-        try:
+        with self.assertRaises(ValueError):
             # try non-existent column first
             pe.cookbook.update_rows(self.testfile, bad_column)
-            assert 1 == 2
-        except ValueError:
-            assert 1 == 1
         pe.cookbook.update_rows(self.testfile, custom_column)
         r = pe.Reader(f"pyexcel_{self.testfile}")
         assert custom_column["1"] == r.row_at(1)[1:]
-        try:
+        with self.assertRaises(NotImplementedError):
             # try not to overwrite a file
             pe.cookbook.update_rows(self.testfile, custom_column)
             r = pe.SeriesReader(f"pyexcel_{self.testfile}")
-            assert 1 == 2
-        except NotImplementedError:
-            assert 1 == 1
         pe.cookbook.update_rows(self.testfile, custom_column, "test4.xls")
         r = pe.Reader("test4.xls")
         assert custom_column["1"] == r.row_at(1)[1:]

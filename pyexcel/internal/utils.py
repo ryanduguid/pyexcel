@@ -49,8 +49,6 @@ def make_a_property(
     )
     if "." in attribute:
         attribute = attribute.replace(".", "_")
-    else:
-        attribute = attribute
     setattr(cls, attribute, attribute_property)
     setattr(cls, f"get_{attribute}", getter)
     setattr(cls, f"set_{attribute}", setter)
