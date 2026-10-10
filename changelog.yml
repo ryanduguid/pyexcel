@@ -4,17 +4,14 @@ releases:
 - changes:
   - action: Fixed
     details:
-    - Remove the unreachable datetime branch and redundant property self-assignment.
-    - Make exception and file-existence tests assert their intended outcome.
-  version: unreleased
-  date: unreleased
-- changes:
-  - action: Fixed
-    details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"
     - "`#285`: display timedelta values as strings without JSON serialization errors"
+  - action: updated
+    details:
+    - Remove the unreachable datetime branch and redundant property self-assignment.
+    - Make exception and file-existence tests assert their intended outcome.
   version: 0.7.7
-  date: 01.07.2026
+  date: tbd
 - changes:
   - action: Fixed
     details:
