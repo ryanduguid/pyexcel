@@ -4,6 +4,8 @@ jobs:
   run_moban:
     runs-on: ubuntu-latest
     name: synchronize templates via moban
+    # Forks lack the PAT secret this job needs to push template updates.
+    if: github.repository_owner == 'pyexcel'
     steps:
       - uses: actions/checkout@v2
         with:
