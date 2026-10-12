@@ -4,6 +4,8 @@ jobs:
   run_moban:
     runs-on: ubuntu-latest
     name: synchronize templates via moban
+    # Forks lack the PAT secret this job needs to push template updates.
+    if: github.repository_owner == 'pyexcel'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -16,7 +18,7 @@ jobs:
       - name: check changes
         run: |
           pip install markupsafe==2.0.1
-          pip install ruamel.yaml moban gitfs2 pypifs moban-jinja2-github moban-ansible
+          pip install --only-binary :all: ruamel.yaml==0.19.1 moban==0.8.2 gitfs2==0.0.5 pypifs==0.0.2 moban-jinja2-github==0.0.4 moban-ansible==0.0.2
           moban
           git status
           git diff --exit-code
