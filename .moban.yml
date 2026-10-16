@@ -1,4 +1,4 @@
-overrides: "git://github.com/pyexcel/pyexcel-mobans!/mobanfile.yaml"
+overrides: ".moban.d/mobanfile.yaml"
 configuration:
   configuration: pyexcel.yml
 targets:

@@ -1,0 +1,85 @@
+diff --git a/fs-2.4.16.dist-info/METADATA b/fs-2.4.16.dist-info/METADATA
+index c610a93..c515d88 100644
+--- a/fs-2.4.16.dist-info/METADATA
++++ b/fs-2.4.16.dist-info/METADATA
+@@ -30,6 +30,7 @@ Classifier: Topic :: System :: Filesystems
+ Classifier: Typing :: Typed
+ Description-Content-Type: text/markdown
+ License-File: LICENSE
++Requires-Python: >=3.15
+ Requires-Dist: appdirs (~=1.4.3)
+ Requires-Dist: setuptools
+ Requires-Dist: six (~=1.10)
+diff --git a/fs-2.4.16.dist-info/WHEEL b/fs-2.4.16.dist-info/WHEEL
+index 0b18a28..59d1901 100644
+--- a/fs-2.4.16.dist-info/WHEEL
++++ b/fs-2.4.16.dist-info/WHEEL
+@@ -1,6 +1,6 @@
+ Wheel-Version: 1.0
+ Generator: bdist_wheel (0.37.1)
+ Root-Is-Purelib: true
+-Tag: py2-none-any
+ Tag: py3-none-any
++Build: 1
+ 
+diff --git a/fs/__init__.py b/fs/__init__.py
+index 97dc55b..ddd93b3 100644
+--- a/fs/__init__.py
++++ b/fs/__init__.py
+@@ -1,7 +1,9 @@
+ """Python filesystem abstraction layer.
+ """
+ 
+-__import__("pkg_resources").declare_namespace(__name__)  # type: ignore
++from pkgutil import extend_path
++
++__path__ = extend_path(__path__, __name__)
+ 
+ from . import path
+ from ._fscompat import fsdecode, fsencode
+diff --git a/fs/opener/__init__.py b/fs/opener/__init__.py
+index 651a630..d548fec 100644
+--- a/fs/opener/__init__.py
++++ b/fs/opener/__init__.py
+@@ -3,7 +3,9 @@
+ """
+ 
+ # Declare fs.opener as a namespace package
+-__import__("pkg_resources").declare_namespace(__name__)  # type: ignore
++from pkgutil import extend_path
++
++__path__ = extend_path(__path__, __name__)
+ 
+ # Import opener modules so that `registry.install` if called on each opener
+ from . import appfs, ftpfs, memoryfs, osfs, tarfs, tempfs, zipfs
+diff --git a/fs/opener/registry.py b/fs/opener/registry.py
+index 1954723..71b9c2e 100644
+--- a/fs/opener/registry.py
++++ b/fs/opener/registry.py
+@@ -8,7 +8,7 @@ import typing
+ 
+ import collections
+ import contextlib
+-import pkg_resources
++from importlib.metadata import entry_points
+ 
+ from ..errors import ResourceReadOnly
+ from .base import Opener
+@@ -76,7 +76,7 @@ class Registry(object):
+         if self.load_extern:
+             _protocols.extend(
+                 entry_point.name
+-                for entry_point in pkg_resources.iter_entry_points("fs.opener")
++                for entry_point in entry_points(group="fs.opener")
+             )
+             _protocols = list(collections.OrderedDict.fromkeys(_protocols))
+         return _protocols
+@@ -103,7 +103,7 @@ class Registry(object):
+ 
+         if self.load_extern:
+             entry_point = next(
+-                pkg_resources.iter_entry_points("fs.opener", protocol), None
++                iter(entry_points(group="fs.opener", name=protocol)), None
+             )
+         else:
+             entry_point = None

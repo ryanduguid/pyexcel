@@ -1,0 +1,2 @@
+fs==2.4.16 --hash=sha256:660064febbccda264ae0b6bace80a8d1be9e089e0a5eb2427b7d517f9a91545c
+jinja2-fsloader==0.3.0 --hash=sha256:3182fc4c1bc8bfae8f7c78f4f9916b91a09b677dc3bcb6c2cfba7382cd30ee27
