@@ -1,5 +1,6 @@
 """Generated suffixes must preserve sheets that already use those names."""
 import operator
+from unittest import TestCase
 
 import pytest
 
@@ -14,5 +15,6 @@ def test_generated_name_skips_every_existing_sheet(monkeypatch, combine):
     existing = Book(original)
     incoming = Sheet([[4]], "A")
     result = combine(existing, incoming)
-    assert result.to_dict() == {**original, "A_3": [[4]]}
-    assert incoming.array == [[4]]
+    checks = TestCase()
+    checks.assertEqual(result.to_dict(), {**original, "A_3": [[4]]})
+    checks.assertEqual(incoming.array, [[4]])
