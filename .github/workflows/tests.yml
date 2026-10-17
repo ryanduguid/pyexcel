@@ -6,7 +6,7 @@ jobs:
 
   test:
     name:  ${{ matrix.os }} / ${{ matrix.python_version }}
-    runs-on: ${{ matrix.os }}-latest 
+    runs-on: ${{ matrix.os == 'Ubuntu' && 'ubuntu-24.04' || format('{0}-latest', matrix.os) }}
     strategy:
       fail-fast: false
       matrix:
