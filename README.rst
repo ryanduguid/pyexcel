@@ -5,28 +5,28 @@ pyexcel - Let you focus on data, instead of file formats
 .. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
    :target: https://www.patreon.com/chfw
 
-.. image:: https://codecov.io/gh/pyexcel/pyexcel/branch/master/graph/badge.svg
+.. image:: https://img.shields.io/codecov/c/github/pyexcel/pyexcel/master?style=flat&labelColor=000000
    :target: https://codecov.io/gh/pyexcel/pyexcel
 
-.. image:: https://badge.fury.io/py/pyexcel.svg
+.. image:: https://img.shields.io/pypi/v/pyexcel?style=flat&labelColor=000000&color=66023C
    :target: https://pypi.org/project/pyexcel
 
-.. image:: https://anaconda.org/conda-forge/pyexcel/badges/version.svg
+.. image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fanaconda.org%2Fconda-forge%2Fpyexcel%2Fbadges%2Fversion.svg&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=Anaconda.org&style=flat&labelColor=000000&color=66023C
    :target: https://anaconda.org/conda-forge/pyexcel
 
 
-.. image:: https://pepy.tech/badge/pyexcel/month
+.. image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fpepy.tech%2Fbadge%2Fpyexcel%2Fmonth&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=downloads%2Fmonth&style=flat&labelColor=000000&color=66023C
    :target: https://pepy.tech/project/pyexcel
 
-.. image:: https://anaconda.org/conda-forge/pyexcel/badges/downloads.svg
+.. image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fanaconda.org%2Fconda-forge%2Fpyexcel%2Fbadges%2Fdownloads.svg&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=downloads&style=flat&labelColor=000000&color=66023C
    :target: https://anaconda.org/conda-forge/pyexcel
 
-.. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=blue&style=flat-square
+.. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=66023C&style=flat&labelColor=000000
     :target: https://moban.readthedocs.io/en/latest/#at-scale-continous-templating-for-open-source-projects
 
-.. image:: https://img.shields.io/static/v1?label=coding%20style&message=black&color=black&style=flat-square
+.. image:: https://img.shields.io/static/v1?label=coding%20style&message=black&color=66023C&style=flat&labelColor=000000
     :target: https://github.com/psf/black
-.. image:: https://readthedocs.org/projects/pyexcel/badge/?version=latest
+.. image:: https://img.shields.io/readthedocs/pyexcel/latest?style=flat&labelColor=000000
    :target: http://pyexcel.readthedocs.org/en/latest/
 
 Support the project
