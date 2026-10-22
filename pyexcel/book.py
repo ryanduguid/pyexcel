@@ -238,6 +238,6 @@ def _unique_key(preferred, existing, base=None):
     uffixed with a local uuid."""
     if base is None:
         base = preferred
-    if preferred in existing:
-        return f"{base}_{local_uuid()}"
+    while preferred in existing:
+        preferred = f"{base}_{local_uuid()}"
     return preferred
