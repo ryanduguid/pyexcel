@@ -34,3 +34,9 @@ def test_get_sheet_headers():
     sheet_stream = SheetStream("test", data)
     colnames_array = get_sheet_headers(sheet_stream)
     eq_(colnames_array, ["a", "b", "c"])
+
+
+def test_array_materialises_a_stream_once():
+    stream = SheetStream("data", iter([[1, 2], [3, 4]]))
+    assert stream.array == [[1, 2], [3, 4]]
+    assert stream.array == []

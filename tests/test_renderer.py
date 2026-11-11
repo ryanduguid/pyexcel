@@ -1,3 +1,4 @@
+import pytest
 from pyexcel.renderer import (
     Renderer,
     DbRenderer,
@@ -7,6 +8,11 @@ from pyexcel.renderer import (
 
 from ._compact import BytesIO
 from .nose_tools import raises
+
+
+def test_db_renderer_has_no_file_stream():
+    with pytest.raises(Exception, match="No io for this renderer"):
+        DbRenderer("sql").get_io()
 
 
 @raises(NotImplementedError)

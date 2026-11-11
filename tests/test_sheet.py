@@ -1,8 +1,39 @@
 from textwrap import dedent
 
+import pytest
 from pyexcel import Sheet
 
 from .nose_tools import eq_
+
+
+@pytest.mark.parametrize("named", [False, True])
+def test_grouping_by_column_name_includes_one_header_per_group(named):
+    sheet = Sheet(
+        [["category", "value"], ["a", 1], ["b", 2], ["a", 3]],
+        name_columns_by_row=0 if named else -1,
+    )
+    book = sheet.group_rows_by_column("category")
+    assert book.to_dict() == {
+        "a": [["category", "value"], ["a", 1], ["a", 3]],
+        "b": [["category", "value"], ["b", 2]],
+    }
+    assert sheet.colnames == ["category", "value"]
+
+
+def test_unnamed_sheet_cannot_be_converted_to_a_named_dictionary():
+    with pytest.raises(NotImplementedError, match="Not implemented"):
+        Sheet([[1, 2]]).to_dict()
+
+
+def test_named_rows_include_an_empty_row_for_an_extra_name():
+    sheet = Sheet([[1]], rownames=["data", "empty"])
+    assert list(sheet.named_rows()) == [{"data": [1]}, {"empty": []}]
+
+
+def test_named_tuple_access_resolves_both_axes():
+    sheet = Sheet([[1, 2], [3, 4]], rownames=["r1", "r2"], colnames=["a", "b"])
+    assert sheet["r2", "a"] == 3
+    assert sheet[0, "b"] == 2
 
 
 def test_project():

@@ -20,6 +20,14 @@ class TestSheetRow(unittest.TestCase):
         data = s.row[-1]
         eq_(data, self.data[-1])
 
+    def test_selecting_named_rows_preserves_names_and_data(self):
+        sheet = Sheet([[1], [2], [3]], rownames=["a", "b", "c"])
+        sheet.row.select(["a", "c"])
+        self.assertEqual(sheet.rownames, ["a", "c"])
+        self.assertEqual(sheet.get_internal_array(), [[1], [3]])
+        with self.assertRaisesRegex(AttributeError, "missing is not found"):
+            sheet.row.missing
+
     def test_formatter_by_named_row(self):
         s = Sheet(self.data, "test")
         s.name_rows_by_column(0)

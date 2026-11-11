@@ -1,5 +1,6 @@
 import unittest
 
+import pytest
 import pyexcel as p
 
 from .base import (
@@ -9,6 +10,33 @@ from .base import (
     create_sample_file1,
 )
 from .nose_tools import eq_, raises
+
+
+@pytest.mark.parametrize("loader", [p.load, p.Reader])
+def test_legacy_tuple_input_preserves_sheet_data_and_name(loader):
+    with p.save_book_as(
+        bookdict={"other": [[0]], "data": [[1, 2], [3, 4]]},
+        dest_file_type="csvz",
+    ) as stream:
+        content = stream.getvalue()
+    with pytest.warns(DeprecationWarning):
+        sheet = loader(("csvz", content), sheetname="data")
+    assert sheet.get_internal_array() == [[1, 2], [3, 4]]
+    assert sheet.name == "data"
+
+
+def test_legacy_tuple_series_reader_preserves_column_names():
+    with pytest.warns(DeprecationWarning):
+        sheet = p.SeriesReader(("csv", "a,b\n1,2\n"))
+    assert sheet.colnames == ["a", "b"]
+    assert sheet.get_internal_array() == [[1, 2]]
+
+
+def test_legacy_tuple_column_series_reader_preserves_row_names():
+    with pytest.warns(DeprecationWarning):
+        sheet = p.ColumnSeriesReader(("csv", "a,1\nb,2\n"))
+    assert sheet.rownames == ["a", "b"]
+    assert sheet.get_internal_array() == [[1], [2]]
 
 
 class TestReader(unittest.TestCase):

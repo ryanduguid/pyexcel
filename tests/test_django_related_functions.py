@@ -1,3 +1,4 @@
+import pytest
 import pyexcel as pe
 
 from ._compact import OrderedDict
@@ -149,13 +150,14 @@ def test_model_save_to_django_model_2():
     assert model.objects.objs == RESULT3
 
 
-def test_load_sheet_from_django_model():
+@pytest.mark.parametrize("on_demand", [False, True])
+def test_load_sheet_from_django_model(on_demand):
     model = FakeDjangoModel()
     sheet = pe.Sheet(get_data2(), name_columns_by_row=0)
     sheet.save_to_django_model(model)
     assert model.objects.objs == RESULT3
     model._meta.update(["X", "Y", "Z"])
-    sheet2 = pe.get_sheet(model=model, sheet_name="test")
+    sheet2 = pe.get_sheet(model=model, sheet_name="test", on_demand=on_demand)
     sheet2.name_columns_by_row(0)
     assert sheet2.name == "test"
     eq_(list(sheet2.to_records()), list(sheet.to_records()))

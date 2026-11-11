@@ -2,6 +2,9 @@ name: Run unit tests on Windows, Ubuntu and Mac
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
 
   test:
@@ -27,13 +30,40 @@ jobs:
         run: |
           pip --use-deprecated=legacy-resolver install -r requirements.txt
           pip --use-deprecated=legacy-resolver install -r tests/requirements.txt
-          pip --use-deprecated=legacy-resolver install -r rnd_requirements.txt          
+          pip --use-deprecated=legacy-resolver install -r rnd_requirements.txt
       - name: test
         run: |
           pip freeze
           make test
+          python -m coverage xml -o coverage-${{ matrix.python_version }}.xml
 
-      - name: Upload coverage
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+      - name: Keep the coverage report
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name:  ${{ matrix.os }} Python ${{ matrix.python-version }}
+          name: coverage-${{ matrix.python_version }}
+          path: coverage-${{ matrix.python_version }}.xml
+          retention-days: 1
+
+  codecov:
+    name: Upload coverage to Codecov
+    needs: test
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: coverage-*
+          merge-multiple: true
+      - uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          use_oidc: true
+          files: coverage-3.9.25.xml,coverage-3.12.12.xml,coverage-3.13.9.xml,coverage-3.14.1.xml
+          disable_search: true
+          fail_ci_if_error: true

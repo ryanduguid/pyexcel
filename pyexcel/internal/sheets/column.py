@@ -185,8 +185,6 @@ class Column(utils.CommonPropertyAmongRowNColumn):
             self._ref.filter(column_indices=indices)
         elif isinstance(aslice, int):
             self._ref.delete_columns([aslice])
-        elif isinstance(aslice, types.LambdaType):
-            self._delete_columns_by_content(aslice)
         elif isinstance(aslice, types.FunctionType):
             self._delete_columns_by_content(aslice)
         else:

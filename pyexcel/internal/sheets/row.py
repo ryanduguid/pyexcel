@@ -150,8 +150,6 @@ class Row(utils.CommonPropertyAmongRowNColumn):
             self._ref.filter(row_indices=list(locator))
         elif isinstance(locator, list):
             self._ref.filter(row_indices=locator)
-        elif isinstance(locator, types.LambdaType):
-            self._delete_rows_by_content(locator)
         elif isinstance(locator, types.FunctionType):
             self._delete_rows_by_content(locator)
         else:

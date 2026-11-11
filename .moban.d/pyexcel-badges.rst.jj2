@@ -1,0 +1,32 @@
+.. image:: https://raw.githubusercontent.com/pyexcel/pyexcel.github.io/master/images/patreon.png
+   :target: https://www.patreon.com/chfw
+
+.. image:: https://img.shields.io/codecov/c/github/ryanduguid/pyexcel/dev?style=flat&labelColor=000000
+   :target: https://codecov.io/gh/ryanduguid/pyexcel/tree/dev
+
+{% if release!='0.0.0' %}
+.. image:: https://img.shields.io/pypi/v/{{name}}?style=flat&labelColor=000000&color=66023C
+   :target: https://pypi.org/project/{{name}}
+{% endif %}
+
+{% if is_on_conda %}
+.. image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fanaconda.org%2Fconda-forge%2F{{name}}%2Fbadges%2Fversion.svg&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=Anaconda.org&style=flat&labelColor=000000&color=66023C
+   :target: https://anaconda.org/conda-forge/{{name}}
+{% endif %}
+
+
+{% if release!='0.0.0' %}
+.. image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fpepy.tech%2Fbadge%2F{{name}}%2Fmonth&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=downloads%2Fmonth&style=flat&labelColor=000000&color=66023C
+   :target: https://pepy.tech/project/{{name}}
+{% endif %}
+
+{% if is_on_conda %}
+.. image:: https://img.shields.io/badge/dynamic/xml?url=https%3A%2F%2Fanaconda.org%2Fconda-forge%2F{{name}}%2Fbadges%2Fdownloads.svg&query=normalize-space%28%28%2F%2F%2A%5Blocal-name%28%29%3D%27text%27%5D%29%5Blast%28%29%5D%29&label=downloads&style=flat&labelColor=000000&color=66023C
+   :target: https://anaconda.org/conda-forge/{{name}}
+{% endif %}
+
+.. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=66023C&style=flat&labelColor=000000
+    :target: https://moban.readthedocs.io/en/latest/#at-scale-continous-templating-for-open-source-projects
+
+.. image:: https://img.shields.io/static/v1?label=coding%20style&message=black&color=66023C&style=flat&labelColor=000000
+    :target: https://github.com/psf/black
