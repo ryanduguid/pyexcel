@@ -6,11 +6,15 @@ releases:
     details:
     - "`#310`: fix broken indentation in iget_records memory-reduction patch"
     - "`#285`: display timedelta values as strings without JSON serialization errors"
+    - Preserve row names when deleting a column by its integer index.
   - action: updated
     details:
     - Use flat styling for 8 README badges.
     - Remove the unreachable datetime branch and redundant property self-assignment.
     - Make exception and file-existence tests assert their intended outcome.
+    - Cover plugin, stream and sheet edge cases and collect coverage from every Python CI version.
+    - Consolidate identical function and lambda deletion paths.
+    - Track this fork's dev coverage and preserve its badge and CI configuration in local Moban templates.
   version: 0.7.7
   date: tbd
 - changes:

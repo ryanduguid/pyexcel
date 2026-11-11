@@ -1,6 +1,7 @@
 import unittest
 
 from pyexcel import Sheet
+from pyexcel.internal.generators import SheetStream
 
 from ._compact import OrderedDict
 
@@ -18,6 +19,23 @@ class TestSheetColumn(unittest.TestCase):
         s = Sheet(self.data, "test")
         data = s.column[-1]
         self.assertEqual(data, ["Column 3", 3, 6, 9])
+
+    def test_adding_streamed_columns_keeps_the_header_and_input(self):
+        sheet = Sheet([["a"], [1], [2]], name_columns_by_row=0)
+        stream = SheetStream("more", [["b"], [3], [4]])
+        sheet.column += stream
+        self.assertEqual(sheet.colnames, ["a", "b"])
+        self.assertEqual(sheet.get_internal_array(), [[1, 3], [2, 4]])
+        self.assertEqual(stream.get_internal_array(), [["b"], [3], [4]])
+
+    def test_assigning_a_named_column_preserves_both_axes(self):
+        sheet = Sheet(
+            [[1, 2], [3, 4]], colnames=["a", "b"], rownames=["r1", "r2"]
+        )
+        sheet.column["b"] = [20, 40]
+        self.assertEqual(sheet.get_internal_array(), [[1, 20], [3, 40]])
+        self.assertEqual(sheet.colnames, ["a", "b"])
+        self.assertEqual(sheet.rownames, ["r1", "r2"])
 
     def test_formatter_by_named_column(self):
         """Test one named column"""
@@ -67,6 +85,23 @@ class TestSheetColumn(unittest.TestCase):
         assert s.number_of_columns() == 2
         with self.assertRaises((ValueError)):
             s.column["Column 2"]  # bang
+
+    def test_integer_column_deletion_preserves_row_names(self):
+        for index, names, data in [
+            (0, ["b", "c"], [[2, 3], [5, 6]]),
+            (2, ["a", "b"], [[1, 2], [4, 5]]),
+            (-1, ["a", "b"], [[1, 2], [4, 5]]),
+        ]:
+            with self.subTest(index=index):
+                sheet = Sheet(
+                    [[1, 2, 3], [4, 5, 6]],
+                    colnames=["a", "b", "c"],
+                    rownames=["r1", "r2"],
+                )
+                sheet.delete_named_column_at(index)
+                self.assertEqual(sheet.rownames, ["r1", "r2"])
+                self.assertEqual(sheet.colnames, names)
+                self.assertEqual(sheet.get_internal_array(), data)
 
     def test_delete_indexed_column1(self):
         s = Sheet(self.data, "test")

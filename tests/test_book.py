@@ -1,6 +1,16 @@
 import pyexcel as p
+from pyexcel.book import to_book
 
 from .nose_tools import eq_
+
+
+def test_converting_an_existing_book_preserves_its_identity():
+    book = p.Book({"data": [[1, 2]]})
+    assert to_book(book) is book
+    assert book.to_dict() == {"data": [[1, 2]]}
+    iterator = iter(book)
+    assert iter(iterator) is iterator
+    assert next(iterator).array == [[1, 2]]
 
 
 def test_a_dictionary_of_sheet():

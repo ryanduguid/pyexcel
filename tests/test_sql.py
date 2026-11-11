@@ -4,6 +4,7 @@ from unittest import TestCase
 
 import pyexcel as pe
 
+from pyexcel_io.constants import SKIP_DATA
 from .db import Base, Pyexcel, Session, engine
 from .nose_tools import eq_, raises
 
@@ -43,6 +44,40 @@ class TestSQL(TestCase):
         +------------+----+-------+--------+""",
         ).strip("\n")
         self.assertEqual(str(sheet), content)
+
+    def test_sql_on_demand_preserves_selected_columns(self):
+        session = Session()
+        try:
+            sheet = pe.get_sheet(
+                session=session,
+                table=Pyexcel,
+                export_columns=["id", "name"],
+                on_demand=True,
+            )
+            self.assertEqual(
+                sheet.get_internal_array(),
+                [["id", "name"], [0, "Adam"], [1, "Smith"]],
+            )
+        finally:
+            pe.free_resources()
+            session.close()
+
+    def test_query_set_row_filter_keeps_the_header(self):
+        session = Session()
+        try:
+            sheet = pe.get_sheet(
+                query_sets=session.query(Pyexcel).order_by(Pyexcel.id).all(),
+                column_names=["id", "name"],
+                skip_row_func=lambda index, start, limit: (
+                    SKIP_DATA if index == 1 else index
+                ),
+            )
+            self.assertEqual(
+                sheet.get_internal_array(), [["id", "name"], [1, "Smith"]]
+            )
+        finally:
+            pe.free_resources()
+            session.close()
 
     def test_sql_sheet(self):
         sheet = pe.get_sheet(

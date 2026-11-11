@@ -360,8 +360,6 @@ class Sheet(Matrix):
         :param str name: a column name
         """
         if isinstance(name, int):
-            if len(self.rownames) > 0:
-                self.rownames.pop(name)
             self.delete_columns([name])
         else:
             index = self.colnames.index(name)

@@ -18,6 +18,7 @@ def test_sheet_content():
     +---+---+""",
     ).strip("\n")
     eq_(str(sheet.content), expected)
+    eq_(repr(sheet.content), expected)
 
 
 def test_random_access():

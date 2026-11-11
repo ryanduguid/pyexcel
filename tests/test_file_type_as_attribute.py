@@ -1,4 +1,5 @@
 import os
+from io import BytesIO, TextIOWrapper
 from textwrap import dedent
 
 from pyexcel import Book, Sheet, get_book, constants
@@ -46,6 +47,15 @@ def test_sheet_register_presentation():
     Sheet.register_presentation(FIXTURE)
     s = Sheet([[1, 2]])
     assert s.dummy == FIXTURE
+
+
+def test_presentation_writes_to_a_text_wrapper_without_getvalue():
+    Sheet.register_presentation(FIXTURE)
+    sheet = Sheet([[1, 2]])
+    with TextIOWrapper(BytesIO(), encoding="utf-8") as stream:
+        assert sheet.get_dummy(file_stream=stream) is None
+        stream.seek(0)
+        assert stream.read() == FIXTURE
 
 
 def test_book_register_presentation():

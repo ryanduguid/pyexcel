@@ -1,11 +1,48 @@
 import os
 import threading
 from io import StringIO
+from unittest.mock import Mock
 
+import pytest
 from pyexcel import iget_array
 from pyexcel.internal import garbagecollector as gc
 
 from .nose_tools import eq_
+
+
+def test_cleanup_attempts_every_resource_and_raises_the_first_error(
+    monkeypatch,
+):
+    monkeypatch.setattr(gc, "GARBAGE", gc._ThreadLocalGarbage())
+    first_error = OSError("first close failed")
+    first = Mock()
+    second = Mock()
+    last = StringIO("last resource")
+    first.close.side_effect = first_error
+    second.close.side_effect = RuntimeError("second close failed")
+    for resource in (first, second, last):
+        gc.append(resource)
+    assert list(gc.GARBAGE) == [first, second, last]
+
+    with pytest.raises(OSError) as raised:
+        gc.free_resources()
+
+    assert raised.value is first_error
+    first.close.assert_called_once_with()
+    second.close.assert_called_once_with()
+    assert last.closed
+    assert len(gc.GARBAGE) == 0
+    gc.free_resources()
+    first.close.assert_called_once_with()
+
+
+def test_reset_forgets_resources_without_closing_them(monkeypatch):
+    monkeypatch.setattr(gc, "GARBAGE", gc._ThreadLocalGarbage())
+    with StringIO("owned by the caller") as stream:
+        gc.append(stream)
+        gc.reset()
+        assert list(gc.GARBAGE) == []
+        assert not stream.closed
 
 
 def test_gc():
