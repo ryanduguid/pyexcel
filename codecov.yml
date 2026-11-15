@@ -1,0 +1,7 @@
+# Codecov holds this fork's coverage at 100%: the project check fails below
+# that, and dev requires it.
+coverage:
+  status:
+    project:
+      default:
+        target: 100%
